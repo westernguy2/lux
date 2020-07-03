@@ -153,6 +153,16 @@ class LuxDataFrame(pd.DataFrame):
         super(LuxDataFrame, self).__setitem__(key, value)
         self.computeStats()
         self.computeDatasetMetadata()
+    def __finalize__(self, other, method = None, **kwargs):
+        newdf = super(LuxDataFrame, self).__finalize__(other, method, **kwargs)
+        newdf.computeStats()
+        newdf.computeDatasetMetadata()
+        return newdf
+    def _update_inplace(self, result, verify_is_copy = True):
+        super(LuxDataFrame, self)._update_inplace(result, verify_is_copy)
+        self.computeStats()
+        self.computeDatasetMetadata()
+
     #######################################################
     ############ Metadata: data type, model #############
     #######################################################
@@ -215,8 +225,9 @@ class LuxDataFrame(pd.DataFrame):
         self.xMinMax = {}
         self.yMinMax = {}
         self.cardinality = {}
-
+        print(self.columns)
         for attribute in self.columns:
+            print(self[attribute])
             self.uniqueValues[attribute] = list(self[attribute].unique())
             self.cardinality[attribute] = len(self.uniqueValues[attribute])
             if self.dtypes[attribute] == "float64" or self.dtypes[attribute] == "int64":
