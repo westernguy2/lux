@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import List, Callable
+from typing import List, Callable, Union
 from lux.context.Spec import Spec
 from lux.utils.utils import check_import_lux_widget
 class View:
@@ -7,12 +7,12 @@ class View:
 	View Object represents a collection of fully fleshed out specifications required for data fetching and visualization.
 	'''
 
-	def __init__(self, spec_lst, mark="", title=""):
+	def __init__(self, spec_lst, mark="", title="",data=None, score=0.0):
 		self.spec_lst = spec_lst
 		self.title = title
 		self.mark = mark
-		self.data = None
-		self.score = 0.0
+		self.data = data
+		self.score = score
 		self.vis = None
 		self.plot_config = None
 		self.x_min_max = {}
@@ -94,29 +94,48 @@ class View:
 
 	def get_attr_by_data_type(self, dtype):
 		return list(filter(lambda x: x.data_type == dtype and x.value=='' if hasattr(x, "data_type") else False, self.spec_lst))
+	def remove_filter_from_spec(self, value):
+		self.spec_lst = list(filter(lambda x: x.value != value, self.spec_lst))
 
-	def remove_column_from_spec(self, attribute):
-		self.spec = list(filter(lambda x: x.attribute != attribute, self.spec_lst))
+	def remove_column_from_spec(self, attribute, remove_first:bool=False):
+		"""
+		Removes an attribute from the View's spec
 
-	def remove_column_from_spec_new(self, attribute):
-		new_spec = []
-		for i in range(0, len(self.spec_lst)):
-			if self.spec_lst[i].value=="": # spec is type attribute
-				column_spec = []
-				column_names = self.spec_lst[i].attribute
-				# if only one variable in a column, columnName results in a string and not a list so
-				# you need to differentiate the cases
-				if isinstance(column_names, list):
-					for column in column_names:
-						if column != attribute:
-							column_spec.append(column)
-					new_spec.append(Spec(column_spec))
+		Parameters
+		----------
+		attribute : str
+			attribute to be removed
+		remove_first : bool, optional
+			Boolean flag to determine whether to remove all instances of the attribute or only one (first) instance, by default False
+		"""		
+		if (not remove_first):
+			self.spec_lst = list(filter(lambda x: x.attribute != attribute, self.spec_lst))
+		elif (remove_first):
+			new_spec = []
+			skip_check = False
+			for i in range(0, len(self.spec_lst)):
+				if self.spec_lst[i].value=="": # spec is type attribute
+					column_spec = []
+					column_names = self.spec_lst[i].attribute
+					# if only one variable in a column, columnName results in a string and not a list so
+					# you need to differentiate the cases
+					if isinstance(column_names, list):
+						for column in column_names:
+							if (column != attribute) or skip_check:
+								column_spec.append(column)
+							elif (remove_first):
+								remove_first = True
+						new_spec.append(Spec(column_spec))
+					else:
+						if (column_names != attribute) or skip_check:
+							new_spec.append(Spec(attribute = column_names))
+						elif (remove_first):
+							remove_first = True
+					if (remove_first):
+						skip_check = True
 				else:
-					if column_names != attribute:
-						new_spec.append(Spec(attribute = column_names))
-			else:
-				new_spec.append(self.spec_lst[i])
-		self.spec_lst = new_spec
+					new_spec.append(self.spec_lst[i])
+			self.spec_lst = new_spec
 	def to_Altair(self) -> str:
 		"""
 		Generate minimal Altair code to visualize the view
@@ -131,23 +150,27 @@ class View:
 		self.vis= renderer.create_vis(self)
 		return self.vis
 
-	def to_VegaLite(self) -> dict:
+	def to_VegaLite(self, prettyOutput = True) -> Union[dict,str]:
 		"""
-		Generate minimal VegaLite code to visualize the view
+		Generate minimal Vega-Lite code to visualize the view
 
 		Returns
 		-------
-		dict
-			Dictionary of the VegaLite JSON specification
+		Union[dict,str]
+			String or Dictionary of the VegaLite JSON specification
 		"""		
+		import json
 		from lux.vizLib.altair.AltairRenderer import AltairRenderer
 		renderer = AltairRenderer(output_type="VegaLite")
 		self.vis = renderer.create_vis(self)
-		return self.vis
+		if (prettyOutput):
+			return "** Copy Text Below to Vega Editor(vega.github.io/editor) to view and edit **\n"+json.dumps(self.vis, indent=2)
+		else:
+			return self.vis
 		
 	def render_VSpec(self, renderer="altair"):
 		if (renderer == "altair"):
-			return self.to_VegaLite()
+			return self.to_VegaLite(prettyOutput=False)
 	
 	def load(self, ldf) -> View:
 		"""

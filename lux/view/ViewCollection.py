@@ -37,7 +37,7 @@ class ViewCollection():
 		 	return a ViewCollection of selected views. -> ViewCollection(v1, v2...)
 		"""        
 		
-		exported_vis_lst =self.widget._exported_vis_idxs
+		exported_vis_lst =self.widget._exportedVisIdxs
 		if (exported_vis_lst=={}):
 			import warnings
 			warnings.warn("No visualization selected to export")
@@ -45,6 +45,11 @@ class ViewCollection():
 		else:
 			exported_views = ViewCollection(list(map(self.__getitem__, exported_vis_lst["View Collection"])))
 			return exported_views
+	def remove_duplicates(self) -> None: 
+		"""
+		Removes duplicate views in View collection
+		"""		
+		self.collection = list(set(self.collection))
 	def _is_view_input(self):
 		if (type(self.input_lst[0])==View):
 			return True

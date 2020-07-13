@@ -345,7 +345,7 @@ class LuxDataFrame(pd.DataFrame):
     def show_more(self):
         from lux.action.UserDefined import user_defined
         from lux.action.Correlation import correlation
-        from lux.action.Distribution import distribution
+        from lux.action.Univariate import univariate
         from lux.action.Enhance import enhance
         from lux.action.Filter import filter
         from lux.action.Generalize import generalize
@@ -357,8 +357,9 @@ class LuxDataFrame(pd.DataFrame):
 
         if (no_view):
             self._rec_info.append(correlation(self))
-            self._rec_info.append(distribution(self,"quantitative"))
-            self._rec_info.append(distribution(self,"nominal"))
+            self._rec_info.append(univariate(self,"quantitative"))
+            self._rec_info.append(univariate(self,"nominal"))
+            self._rec_info.append(univariate(self,"temporal"))
         elif (one_current_view):
             enhance = enhance(self)
             filter = filter(self)
@@ -379,7 +380,8 @@ class LuxDataFrame(pd.DataFrame):
             vc = rec_info["collection"]
             if (self.plot_config):
                 for view in vc: view.plot_config = self.plot_config
-            self.recommendation[action_type]  = vc
+            if (len(vc)>0):
+                self.recommendation[action_type]  = vc
 
         self.clear_filter()
 
@@ -409,7 +411,7 @@ class LuxDataFrame(pd.DataFrame):
             When all the exported vis is from the same tab, return a ViewCollection of selected views. -> ViewCollection(v1, v2...)
             When the exported vis is from the different tabs, return a dictionary with the action name as key and selected views in the ViewCollection. -> {"Enhance": ViewCollection(v1, v2...), "Filter": ViewCollection(v5, v7...), ..}
         """        
-        exported_vis_lst =self.widget._exported_vis_idxs
+        exported_vis_lst =self.widget._exportedVisIdxs
         exported_views = [] 
         if (exported_vis_lst=={}):
             import warnings
@@ -445,7 +447,7 @@ class LuxDataFrame(pd.DataFrame):
         self.widget = LuxDataFrame.render_widget(self)
 
         # box = widgets.Box(layout=widgets.Layout(display='inline'))
-        button = widgets.Button(description="Toggle Pandas/Lux",layout=widgets.Layout(width='140px',left='935px',top='20px'))
+        button = widgets.Button(description="Toggle Pandas/Lux",layout=widgets.Layout(width='140px',top='5px'))
         output = widgets.Output()
         # box.children = [button,output]
         # output.children = [button]
@@ -526,7 +528,7 @@ class LuxDataFrame(pd.DataFrame):
         import copy
         rec_copy = copy.deepcopy(recs)
         for idx,rec in enumerate(rec_copy):
-            if (rec != {}):
+            if (len(rec["collection"])>0):
                 rec["vspec"] = []
                 for vis in rec["collection"]:
                     chart = vis.render_VSpec()
