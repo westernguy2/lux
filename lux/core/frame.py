@@ -1,4 +1,6 @@
 import pandas as pd
+import numpy as np
+import sys
 from lux.core.series import LuxSeries
 from lux.vis.Clause import Clause
 from lux.vis.Vis import Vis
@@ -49,10 +51,231 @@ class LuxDataFrame(pd.DataFrame):
 		self._min_max = None
 		self.pre_aggregated = None
 
+	def _is_homogeneous_type(self) -> bool:
+		#sys.stdout = open("test.txt", "w")
+		print("_is_homogeneous_type,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self)._is_homogeneous_type()
+	def _can_fast_transpose(self) -> bool:
+		#sys.stdout = open("test.txt", "w")
+		print("_can_fast_transpose,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self)._can_fast_transpose()
+	def _repr_fits_vertical_(self) -> bool:
+		#sys.stdout = open("test.txt", "w")
+		print("_repr_fits_vertical_,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self)._repr_fits_vertical_()
+	def _repr_fits_horizontal_(self) -> bool:
+		#sys.stdout = open("test.txt", "w")
+		print("_repr_fits_horizontal_,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self)._repr_fits_horizontal_()
+	def _info_repr(self) -> bool:
+		#sys.stdout = open("test.txt", "w")
+		print("_info_repr,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self)._info_repr()
+	def __len__(self) -> int:
+		#sys.stdout = open("test.txt", "w")
+		print("__len__,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self).__len__()
+	def __matmul__(self, other):
+		#sys.stdout = open("test.txt", "w")
+		print("__matmul__,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self).__matmul__(other)
+	def __rmatmul__(self, other):
+		#sys.stdout = open("test.txt", "w")
+		print("__rmatmul__,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self).__rmatmul__(other)
+	def _from_arrays(cls, arrays, columns, index, dtype= None, verify_integrity = True):
+		#sys.stdout = open("test.txt", "w")
+		print("_from_arrays,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, cls)._from_arrays(arrays, columns, index, dtype, verify_integrity)
+	def _ixs(self, i: int, axis: int = 0):
+		#sys.stdout = open("test.txt", "w")
+		print("_ixs,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self)._ixs(i, axis)
+	def _get_column_array(self, i: int):
+		#sys.stdout = open("test.txt", "w")
+		print("_get_column_array,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self)._ixs(i)
+	def _iter_column_arrays(self):
+		#sys.stdout = open("test.txt", "w")
+		print("_iter_column_arrays,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self)._ixs()
+	def _iter_column_arrays(self):
+		#sys.stdout = open("test.txt", "w")
+		print("_iter_column_arrays,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self)._ixs()
+	def __getitem__(self, key):
+		#sys.stdout = open("test.txt", "w")
+		print("__getitem__,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self).__getitem__(key)
+	def _getitem_bool_array(self, key):
+		#sys.stdout = open("test.txt", "w")
+		print("_getitem_bool_array,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self)._getitem_bool_array(key)
+	def _getitem_multilevel(self, key):
+		#sys.stdout = open("test.txt", "w")
+		print("_getitem_multilevel,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self)._getitem_multilevel(key)
+	def _get_value(self, index, col, takeable: bool = False):
+		#sys.stdout = open("test.txt", "w")
+		print("_get_value,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self)._get_value(index, col, takeable)
+	def _get_value(self, index, col, takeable: bool = False):
+		#sys.stdout = open("test.txt", "w")
+		print("_get_value,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self)._get_value(index, col, takeable)
+	def _setitem_slice(self, key, value):
+		#sys.stdout = open("test.txt", "w")
+		print("_setitem_slice,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self)._setitem_slice(key, value)
+	def _setitem_array(self, key, value):
+		#sys.stdout = open("test.txt", "w")
+		print("_setitem_array,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self)._setitem_array(key, value)
+	def _setitem_frame(self, key, value):
+		#sys.stdout = open("test.txt", "w")
+		print("_setitem_frame,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self)._setitem_frame(key, value)
+	def _iset_item(self, loc, value):
+		#sys.stdout = open("test.txt", "w")
+		print("_iset_item,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self)._iset_item(loc, value)
+	def _set_item(self, key, value):
+		#sys.stdout = open("test.txt", "w")
+		print("_set_item,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self)._set_item(key, value)
+	def _set_value(self, index,  col, value, takeable):
+		#sys.stdout = open("test.txt", "w")
+		print("_set_value,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self)._set_value(index,  col, value, takeable)
+	def _ensure_valid_index(self, value):
+		#sys.stdout = open("test.txt", "w")
+		print("_ensure_valid_index,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self)._ensure_valid_index(value)
+	def _box_col_values(self, values, loc):
+		#sys.stdout = open("test.txt", "w")
+		print("_box_col_values,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self)._box_col_values(values, loc)
+	def _sanitize_column(self, key, value, broadcast=True):
+		#sys.stdout = open("test.txt", "w")
+		print("_sanitize_column,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self)._sanitize_column(key, value, broadcast)
+	def _series(self):
+		#sys.stdout = open("test.txt", "w")
+		print("_series,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self)._series()
+	def _reindex_axes(self, axes, level, limit, tolerance, method, fill_value, copy):
+		#sys.stdout = open("test.txt", "w")
+		print("_reindex_axes,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self)._reindex_axes(axes, level, limit, tolerance, method, fill_value, copy)
+	def _reindex_index(self, new_index, method, copy, level, fill_value=np.nan, limit=None, tolerance=None):
+		#sys.stdout = open("test.txt", "w")
+		print("_reindex_index,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self)._reindex_index(new_index, method, copy, level, fill_value, limit, tolerance)
+	def _reindex_columns(self, new_columns, method, copy, level, fill_value=np.nan, limit=None, tolerance=None):
+		#sys.stdout = open("test.txt", "w")
+		print("_reindex_columns,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self)._reindex_columns(new_columns, method, copy, level, fill_value, limit, tolerance)
+	def _reindex_multi(self, axes, copy, fill_value):
+		#sys.stdout = open("test.txt", "w")
+		print("_reindex_multi,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self)._reindex_multi(axes, copy, fill_value)
+	def _replace_columnwise(self, mapping, inplace, regex):
+		#sys.stdout = open("test.txt", "w")
+		print("_replace_columnwise,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self)._replace_columnwise(mapping, inplace, regex)
+	def _combine_frame(self, other, func, fill_value=None):
+		#sys.stdout = open("test.txt", "w")
+		print("_combine_frame,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self)._combine_frame(other, func, fill_value)
+	def _construct_result(self, result):
+		#sys.stdout = open("test.txt", "w")
+		print("_construct_result,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self)._construct_result(result)
+	def _gotitem(self, key, ndim, subset):
+		#sys.stdout = open("test.txt", "w")
+		print("_gotitem,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self)._gotitem(key, ndim, subset)
+	def _aggregate(self, arg, axis, *args, **kwargs):
+		#sys.stdout = open("test.txt", "w")
+		print("_aggregate,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self)._aggregate(key, arg, axis, *args, **kwargs)
+	def _join_compat(self, other, on=None, how="left", lsuffix="", rsuffix="", sort=False):
+		#sys.stdout = open("test.txt", "w")
+		print("_join_compat,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self)._join_compat(other, on, how, lsuffix, rsuffix, sort)
+	def _count_level(self, level, axis=0, numeric_only=False):
+		#sys.stdout = open("test.txt", "w")
+		print("_count_level,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self)._count_level(level, axis, numeric_only)
+	def _reduce(op, name, skipna, numeric_only, filter_ty, **kwds):
+		#sys.stdout = open("test.txt", "w")
+		print("_reduce,\n")
+		#sys.stdout.close(op, name, skipna, numeric_only, filter_ty, **kwds)
+		return super(LuxDataFrame, self)._reduce(level, axis, numeric_only)
+	def _get_data():
+		#sys.stdout = open("test.txt", "w")
+		print("_get_data,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self)._get_data(level, axis, numeric_only)
+	def _get_agg_axis(self, axis_num):
+		#sys.stdout = open("test.txt", "w")
+		print("_get_agg_axis,\n")
+		#sys.stdout.close()
+		return super(LuxDataFrame, self)._get_agg_axis(axis_num)
+
+
+
+
+
 	@property
 	def _constructor(self):
+		#sys.stdout = open("test.txt", "w")
+		print("_constructor,\n")
+		#sys.stdout.close()
 		return LuxDataFrame
 	def __setitem__(self,key,value):
+		#sys.stdout = open("test.txt", "w")
+		print("__setitem__,\n")
+		#sys.stdout.close()
 		super(LuxDataFrame, self).__setitem__(key, value)
 		self.expire_metadata()
 		self.expire_recs()
@@ -266,6 +489,9 @@ class LuxDataFrame(pd.DataFrame):
 		self._current_vis = current_vis
 	def __repr__(self):
 		# TODO: _repr_ gets called from _repr_html, need to get rid of this call
+		#sys.stdout = open("test.txt", "w")
+		print("__repr__,\n")
+		#sys.stdout.close()
 		return ""
 	#######################################################
 	############ Metadata: data type, model #############
@@ -607,6 +833,9 @@ class LuxDataFrame(pd.DataFrame):
 			return []
 
 	def _repr_html_(self):
+		#sys.stdout = open("test.txt", "w")
+		print("_repr_html_,\n")
+		#sys.stdout.close()
 		from IPython.display import display
 		from IPython.display import clear_output
 		import ipywidgets as widgets
