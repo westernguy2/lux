@@ -51,6 +51,8 @@ class LuxDataFrame(pd.DataFrame):
         "_saved_export",
     ]
 
+    recent_record = None
+
     def __init__(self, *args, **kw):
         from lux.executor.PandasExecutor import PandasExecutor
 
@@ -675,6 +677,7 @@ class LuxDataFrame(pd.DataFrame):
                     )
                     display(self.display_pandas())
                     return
+                self.history.copy_history()
                 self.maintain_metadata()
 
                 if self._intent != [] and (not hasattr(self, "_compiled") or not self._compiled):
@@ -730,6 +733,7 @@ class LuxDataFrame(pd.DataFrame):
         except (KeyboardInterrupt, SystemExit):
             raise
         except:
+            raise
             warnings.warn(
                 "\nUnexpected error in rendering Lux widget and recommendations. "
                 "Falling back to Pandas display.\n\n"
@@ -861,3 +865,11 @@ class LuxDataFrame(pd.DataFrame):
         self._pandas_only = True
         self._history.append_event("describe", *args, **kwargs)
         return super(LuxDataFrame, self).describe(*args, **kwargs)
+
+    def groupby(self, *args, **kwargs):
+        self.add_to_global_record("groupby", *args, **kwargs)
+        return super(LuxDataFrame, self).groupby(*args, **kwargs)
+
+    def add_to_global_record(self, name, *args, **kwargs):
+        self._history.append_event(name, *args, **kwargs)
+        LuxDataFrame.recent_record = self._history
